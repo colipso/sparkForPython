@@ -18,14 +18,14 @@ access_token = config.access_token
 access_secret = config.access_secret
 
 #access Internet by VPN
-
-import socks
-import socket
-socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 1080)
-socket.socket = socks.socksocket
-def getaddrinfo(*args):
-    return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
-socket.getaddrinfo = getaddrinfo
+if config.VPN:
+    import socks
+    import socket
+    socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 1080)
+    socket.socket = socks.socksocket
+    def getaddrinfo(*args):
+        return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
+    socket.getaddrinfo = getaddrinfo
 
 
 class TwitterAPI(object):

@@ -9,18 +9,19 @@ Created on Wed Jul 19 21:22:06 2017
 
 #https://developer.github.com/v3/
 from github import Github #pip install pygithub
+import config
 
 #access Internet by VPN
+if config.VPN:
+    import socks
+    import socket
+    socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 1080)
+    socket.socket = socks.socksocket
+    def getaddrinfo(*args):
+        return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
+    socket.getaddrinfo = getaddrinfo
 
-import socks
-import socket
-socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 1080)
-socket.socket = socks.socksocket
-def getaddrinfo(*args):
-    return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
-socket.getaddrinfo = getaddrinfo
 
-import config
 from pprint import pprint
 import time
 
