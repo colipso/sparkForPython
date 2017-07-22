@@ -11,10 +11,23 @@ import os
 import csv
 import io
 import json
+import logging
 
 
 class IO_csv(object):
     def __init__(self , filepath , filename , filesuffix = 'csv'):
+        appName = 'IO_csv'
+        self.logger = logging.getLogger(appName)
+        logPath = os.getcwd() + '/log'
+        fileName = appName
+        fileHandler = logging.FileHandler('{}/{}.log'.format(logPath , fileName))
+        formatter = logging.Formatter('%(asctime)s - %(name)s -%(levelname)s - %(message)s')
+        fileHandler.setFormatter(formatter)
+        self.logger.addHandler(fileHandler)
+        self.logger.setLevel(logging.DEBUG)
+        streamHandler = logging.StreamHandler()
+        self.logger.addHandler(streamHandler)
+        
         self.filePath = filepath
         self.fineName = filename
         self.fileSuffix = filesuffix
@@ -44,6 +57,18 @@ class IO_csv(object):
                 
 class IO_json(object):
     def __init__(self , filepath , filename , filesuffix = 'json'):
+        appName = 'IO_json'
+        self.logger = logging.getLogger(appName)
+        logPath = os.getcwd() + '/log'
+        fileName = appName
+        fileHandler = logging.FileHandler('{}/{}.log'.format(logPath , fileName))
+        formatter = logging.Formatter('%(asctime)s - %(name)s -%(levelname)s - %(message)s')
+        fileHandler.setFormatter(formatter)
+        self.logger.addHandler(fileHandler)
+        self.logger.setLevel(logging.DEBUG)
+        streamHandler = logging.StreamHandler()
+        self.logger.addHandler(streamHandler)
+        
         self.filePath = filepath
         self.fileName = filename
         self.fileSuffix = filesuffix
@@ -52,11 +77,13 @@ class IO_json(object):
         dataFile = '{0}/{1}.{2}'.format(self.filePath , self.fileName , self.fileSuffix)
         if os.path.isfile(dataFile):
             with io.open(dataFile , 'a' ,encoding = 'utf-8') as f:
+                f.write(unicode('\n'))
                 f.write(unicode(json.dumps(data , ensure_ascii=False)))
+                
         else:
             with io.open(dataFile , 'w',encoding = 'utf-8') as f:
                 f.write(unicode(json.dumps(data , ensure_ascii = False)))
-                
+        self.logger.info('Saved data to %s' % dataFile)
     def load(self):
         dataFile = '{0}/{1}.{2}'.format(self.filePath , self.fileName , self.fileSuffix)
         with io.open( dataFile , encoding = 'utf-8') as f:
