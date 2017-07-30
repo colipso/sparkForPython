@@ -116,9 +116,16 @@ class TwitterAPI(object):
     def parseTweets(self , statuses):
         '''
         '''
-        pass
+        return [(s['id'] , 
+                 s['created_at'] , 
+                 s['user']['id'] , 
+                 s['user']['name'] ,
+                 s['text'] , 
+                 u['expanded_url']) 
+                    for s in statuses
+                        for u in s['urls']]
 
-    
+''' 
 #test
 TAPI = TwitterAPI()
 result = TAPI.searchTwitter('happy new year')
@@ -127,3 +134,4 @@ print '================================'
 result2= TAPI.getTwitter('Arthur')
 
 #endtest
+'''

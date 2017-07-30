@@ -86,8 +86,11 @@ class IO_json(object):
         self.logger.info('Saved data to %s' % dataFile)
     def load(self):
         dataFile = '{0}/{1}.{2}'.format(self.filePath , self.fileName , self.fileSuffix)
+        returnData = []
         with io.open( dataFile , encoding = 'utf-8') as f:
-            return f.read()
+            for line in  f.readlines():
+                returnData.append(json.loads(line))
+        return returnData
             
 
             

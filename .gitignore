@@ -3,3 +3,9 @@ config.py
 *.pyc
 data/*
 log/*
+lib/*
+*.ipynb
+.ipynb_checkpoints/*
+*.log
+metastore_db/*
+untitled
