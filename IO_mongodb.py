@@ -11,8 +11,9 @@ import logging
 import os
 
 
+
 class IO_mongo(object):
-    def __init__(self , db = 'twitter_db' , coll = 'twitter_coll' , host="localhost", port=27017):
+    def __init__(self , db = 'twitterDB' , coll = 'twitter_data' , host="localhost", port=27017):
         self.dbName = db
         self.collName = coll
         appName = 'IO_mongo'
@@ -60,5 +61,6 @@ class IO_mongo(object):
         
 #test
 #mongoSaver = IO_mongo(db = 'twitterDB' ,  coll = 'twitter_data').save
+#mongoSaver({'b':2})
 #mongoSaver([{'a':1},{'b':2}])
 #endtest

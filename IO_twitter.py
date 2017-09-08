@@ -21,6 +21,7 @@ access_secret = config.access_secret
 
 import IO
 import IO_mongodb
+import IO_elastic
 #access Internet by VPN
 import socks
 import socket
@@ -74,6 +75,7 @@ class TwitterAPI(object):
         #mongo Saver
         self.mongoSaver  = IO_mongodb.IO_mongo(db = 'twitterDB' ,  coll = 'twitter_data').save
         
+        self.elaSaver = IO_elastic.IO_elasticsearch()
         self.logger.info('TwitterAPI init completed')
         
     def __del__(self):
@@ -100,12 +102,15 @@ class TwitterAPI(object):
         return result
     
     def saveTweets(self ,statuses):
+        self.logger.info('There are {} recoreds to save'.format(str(len(statuses))))
         socket.socket = defaultConn
         if type(statuses) == list:
+            self.elaSaver.save(statuses)
             for s in statuses:
                 self.jsonSaver(s)
         elif type(statuses) == dict:
             self.jsonSaver(statuses)
+            self.elaSaver(statuses)
         else:
             self.logger.error('The structure of data to save is wrong')
             return False
@@ -125,13 +130,12 @@ class TwitterAPI(object):
                     for s in statuses
                         for u in s['urls']]
 
-''' 
+ 
 #test
 TAPI = TwitterAPI()
-result = TAPI.searchTwitter('happy new year')
-print '================================'
+#result = TAPI.searchTwitter('happy new year')
+#print '================================'
 
-result2= TAPI.getTwitter('Arthur')
+result2= TAPI.getTwitter('arthur')
 
 #endtest
-'''
