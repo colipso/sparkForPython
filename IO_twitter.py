@@ -130,7 +130,7 @@ class TwitterAPI(object):
                     for s in statuses
                         for u in s['urls']]
 
- 
+'''
 #test
 TAPI = TwitterAPI()
 #result = TAPI.searchTwitter('happy new year')
@@ -139,3 +139,4 @@ TAPI = TwitterAPI()
 result2= TAPI.getTwitter('arthur')
 
 #endtest
+'''
